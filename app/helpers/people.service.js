@@ -91,7 +91,7 @@ const filterEachRow = data => {
  */
 const applyFilters = (data, filter) => {
     // check if there is any filter
-    if (filter == null) {
+    if (filter == null || Object.keys(filter) == 0) {
         return data;
     }
 
@@ -125,7 +125,7 @@ const applyFilters = (data, filter) => {
  * @param {array} data People list
  */
 const applyOrder = (data, order) => {
-    if (order == null) {
+    if (order == null || Object.keys(order) == 0) {
         return data;
     }
     Object.keys(order).forEach(order_key => {

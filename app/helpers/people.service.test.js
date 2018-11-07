@@ -121,7 +121,18 @@ describe('people.service', () => {
 
     it('should filter with two variables and get no results');
 
-    it('should ignore empty filter');
+    it('should ignore empty filter', done => {
+        PeopleService({})
+            .then(result => {
+                expect(result).not.to.be.empty;
+                done();
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
+    });
 
     it('should order by age ascending', done => {
         const order = { age: 1 };
@@ -239,5 +250,28 @@ describe('people.service', () => {
             })
     })
 
-    it('should ignore empty order')
+    it('should order with two variables');
+
+    it('should ignore empty order', done => {
+        // will compare a not-ordered with a call ordered with empty object
+        PeopleService()
+            .then(result_1 => {
+                PeopleService(null, {})
+                    .then(result_2 => {
+                        expect(result_1).to.eql(result_2)
+                        done();
+                    })
+                    .catch(error => {
+                        // just keep a expect if the request fails
+                        expect(error).to.be.null;
+                        done();
+                    })
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
+
+    })
 })
