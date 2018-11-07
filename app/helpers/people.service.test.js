@@ -117,9 +117,34 @@ describe('people.service', () => {
             })
     });
 
-    it('should filter with two variables');
+    it('should filter with two variables', done => {
+        const data = { name: "Renato Menegasso", age: 29 };
+        PeopleService(data)
+            .then(result => {
+                result.every(item => expect(item.name).to.equal(data.name))
+                result.every(item => expect(item.age).to.equal(data.age))
+                done();
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
+    });
 
-    it('should filter with two variables and get no results');
+    it('should filter with two variables and get no results', done => {
+        const data = { name: "Renato Menegasso", age: 23 };
+        PeopleService(data)
+            .then(result => {
+                expect(result).to.be.empty;
+                done();
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
+    });
 
     it('should ignore empty filter', done => {
         PeopleService({})
@@ -210,8 +235,6 @@ describe('people.service', () => {
             })
     });
 
-    it('should filter and order together');
-
     it('should order ascending (1) with order different from 1 and -1', done => {
         const order = { age: 'some-random-value' };
 
@@ -273,5 +296,7 @@ describe('people.service', () => {
                 done();
             })
 
-    })
+    });
+
+    it('should filter and order together');
 })
