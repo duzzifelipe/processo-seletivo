@@ -30,11 +30,18 @@ module.exports = (filter, order) => {
                 reject('Failed to receive server data')
 
             } else {
-                resolve(filterBody(body))
+                // elixir would help here xD
+                //
+                // filterBody(body)
+                // |> applyFilters(filter)
+                // |> applyOrder(order)
+                // |> resolve()
+                //
+                resolve(applyOrder(applyFilters(filterBody(body), filter), order))
             }
         })
     })
-}
+};
 
 /**
  * Calls the api endpoint
@@ -49,12 +56,10 @@ const makeRequest = (cb) => {
 
 /**
  * Filters the body data to keep only needed fields
+ * Calls a filter for each element from people's array
  * @param {object} body A json object containing people data
  */
-const filterBody = body => {
-    // call a filter for each element from people's array
-    return body.map(row => filterEachRow(row))
-}
+const filterBody = body => body.map(row => filterEachRow(row));
 
 /**
  * Receives a object to filter it's keys
@@ -73,4 +78,51 @@ const filterEachRow = data => {
             obj[key] = data[key];
             return obj;
         }, {})
+};
+
+/**
+ * Receives a object containing a field => value association
+ * and returns a filtered object
+ *  * If the value is an array and the data field too, it must match any (not every)
+ *  * If the value is anything else, must exactly match
+ *  * If the key doesn't exist on the data object, will return null (will try to match undefined)
+ * @param {object} filter 
+ * @param {array} data 
+ */
+const applyFilters = (data, filter) => {
+    // check if there is any filter
+    if (filter == null) {
+        return data;
+    }
+
+    Object.keys(filter).forEach(filter_key => {
+        const filter_val = filter[filter_key];
+
+        data = data.filter(row => {
+            if (Array.isArray(row[filter_key]) && Array.isArray(filter_val)) {
+                // verifies if a value from the row
+                // matches with any value from the filter
+                // * both need to be an array to match
+                return row[filter_key].some(item => filter_val.includes(item))
+
+            } else {
+                // for a common field
+                return row[filter_key] == filter_val;
+            }
+        })
+    })
+    return data;
+};
+
+
+/**
+ * Receives a object containing a field => order association
+ * and returns a ordered object
+ * This function respects the key order of the object
+ * 
+ * @param {object} order An object containing a field and the direction
+ * @param {array} data People list
+ */
+const applyOrder = (data, order) => {
+    return data;
 }
