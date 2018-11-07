@@ -110,7 +110,8 @@ const applyFilters = (data, filter) => {
                 return row[filter_key] == filter_val;
             }
         })
-    })
+    });
+
     return data;
 };
 
@@ -124,5 +125,25 @@ const applyFilters = (data, filter) => {
  * @param {array} data People list
  */
 const applyOrder = (data, order) => {
+    if (order == null) {
+        return data;
+    }
+    Object.keys(order).forEach(order_key => {
+        // assign and validate the direction (needs to be 1, -1)
+        const direction = [1, -1].includes(order[order_key]) ? order[order_key] : 1;
+
+        data.sort((a, b) => {
+            if (a[order_key] < b[order_key]) {
+                return -1 * direction;
+
+            } else if (a[order_key] > b[order_key]) {
+                return 1 * direction;
+
+            } else {
+                return 0;
+            }
+        });
+    });
+
     return data;
 }

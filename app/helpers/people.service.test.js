@@ -115,9 +115,129 @@ describe('people.service', () => {
                 expect(error).to.be.null;
                 done();
             })
+    });
+
+    it('should filter with two variables');
+
+    it('should filter with two variables and get no results');
+
+    it('should ignore empty filter');
+
+    it('should order by age ascending', done => {
+        const order = { age: 1 };
+
+        // I will compare a ordered with a raw array and they need to be different
+        // Also comparing with the ordered version of the not-ordered
+        PeopleService()
+            .then(result_1 => {
+                PeopleService(null, order)
+                    .then(result_2 => {
+                        expect(result_1).to.not.eql(result_2);
+
+                        // sort the first array
+                        result_1.sort((a, b) => {
+                            if (a.age < b.age) {
+                                return -1;
+                            } else if (a.age > b.age) {
+                                return 1;
+                            } else {
+                                return 0
+                            }
+                        });
+
+                        expect(result_1).to.eql(result_2)
+                        done();
+                    })
+                    .catch(error => {
+                        // just keep a expect if the request fails
+                        expect(error).to.be.null;
+                        done();
+                    })
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
+    });
+
+    it('should order by age descending', done => {
+        const order = { age: -1 };
+
+        // I will compare a ordered with a raw array and they need to be different
+        // Also comparing with the ordered version of the not-ordered
+        PeopleService()
+            .then(result_1 => {
+                PeopleService(null, order)
+                    .then(result_2 => {
+                        expect(result_1).to.not.eql(result_2);
+
+                        // sort the first array
+                        result_1.sort((a, b) => {
+                            if (a.age < b.age) {
+                                return 1;
+                            } else if (a.age > b.age) {
+                                return -1;
+                            } else {
+                                return 0
+                            }
+                        });
+
+                        expect(result_1).to.eql(result_2)
+                        done();
+                    })
+                    .catch(error => {
+                        // just keep a expect if the request fails
+                        expect(error).to.be.null;
+                        done();
+                    })
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
+    });
+
+    it('should filter and order together');
+
+    it('should order ascending (1) with order different from 1 and -1', done => {
+        const order = { age: 'some-random-value' };
+
+        // I will compare a ordered with a raw array and they need to be different
+        // Also comparing with the ordered version of the not-ordered
+        PeopleService()
+            .then(result_1 => {
+                PeopleService(null, order)
+                    .then(result_2 => {
+                        expect(result_1).to.not.eql(result_2);
+
+                        // sort the first array
+                        result_1.sort((a, b) => {
+                            if (a.age < b.age) {
+                                return -1;
+                            } else if (a.age > b.age) {
+                                return 1;
+                            } else {
+                                return 0
+                            }
+                        });
+
+                        expect(result_1).to.eql(result_2)
+                        done();
+                    })
+                    .catch(error => {
+                        // just keep a expect if the request fails
+                        expect(error).to.be.null;
+                        done();
+                    })
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
     })
 
-    it('should order by age ascending');
-
-    it('should order by age descending');
+    it('should ignore empty order')
 })
