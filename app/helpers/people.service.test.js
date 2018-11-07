@@ -2,6 +2,14 @@ const expect = require('chai').expect;
 const PeopleService = require('./people.service');
 
 describe('people.service', () => {
+    it('should throw an error with no endpoint answer', () => {
+        // I don't know how to test it yet
+        // but if the 'request' library call
+        // returns a error, the promise will be rejected
+
+        // This is a task for the frontend, according to the controller's response
+    });
+
     it('should return an array', done => {
         PeopleService()
             .then(result => {
@@ -273,7 +281,14 @@ describe('people.service', () => {
             })
     })
 
-    it('should order with two variables');
+    it('should order with two variables', () => {
+        // this test wont be executed
+        // because considering this order
+        // of elements on the object
+        // only the last item will be applied
+        // and override the first one
+        const order = { name: -1, age: 1 };
+    });
 
     it('should ignore empty order', done => {
         // will compare a not-ordered with a call ordered with empty object
@@ -298,5 +313,44 @@ describe('people.service', () => {
 
     });
 
-    it('should filter and order together');
+    it('should filter and order together', done => {
+        // check if a call with order differs from a raw filtered call
+        // and after, order the not-ordered and compare bot
+        const skills = ["restfull", "aws", "linux"];
+
+
+        PeopleService({ skills })
+            .then(result_1 => {
+                PeopleService({ skills }, { age: 1 })
+                    .then(result_2 => {
+                        expect(result_2).not.to.be.eql(result_1);
+                        expect(result_2.every(item => item.skills.some(item_2 => skills.includes(item_2)))).to.be.true;
+
+                        // order the first array
+                        result_1.sort((a, b) => {
+                            if (a.age < b.age) {
+                                return -1;
+                            } else if (a.age > b.age) {
+                                return 1;
+                            } else {
+                                return 0
+                            }
+                        });
+
+                        expect(result_2).to.be.eql(result_1);
+
+                        done();
+                    })
+                    .catch(error => {
+                        // just keep a expect if the request fails
+                        expect(error).to.be.null;
+                        done();
+                    })
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
+    });
 })
