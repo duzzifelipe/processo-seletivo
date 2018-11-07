@@ -1,0 +1,21 @@
+{
+  "name": "process-seletivo-duzzifelipe",
+  "version": "1.0.0",
+  "description": "Aplicação teste em Node.js",
+  "main": "index.js",
+  "repository": "https://github.com/Bidu/processo-seletivo.git",
+  "author": "Felipe Duzzi <duzzifelipe@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "chai": "^4.2.0"
+  },
+  "scripts": {
+    "start": "",
+    "test": "./node_modules/.bin/mocha './app/**/*.test.js' --exit -t 5000"
+  }
+}
