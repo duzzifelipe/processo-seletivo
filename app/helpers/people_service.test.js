@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
-const PeopleService = require('./people.service');
+const PeopleService = require('./people_service');
 
-describe('people.service', () => {
+describe('people_service', () => {
     it('should throw an error with no endpoint answer', () => {
         // I don't know how to test it yet
         // but if the 'request' library call

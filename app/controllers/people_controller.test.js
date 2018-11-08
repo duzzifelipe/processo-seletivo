@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const mocks = require('node-mocks-http');
 const PeopleController = require('./people_controller');
-const PeopleService = require('../helpers/people.service');
+const PeopleService = require('../helpers/people_service');
 
 let req;
 let res;
@@ -17,7 +17,7 @@ describe('people_controller', () => {
 
     /**
      * I will only test some simple things to verify the argument parser
-     * All validations on this test came from the people.service test
+     * All validations on this test came from the people_service test
      */
 
     it('should return all data with no url argument', done => {

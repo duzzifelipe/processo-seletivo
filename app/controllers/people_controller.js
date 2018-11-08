@@ -1,4 +1,4 @@
-const PeopleService = require('../helpers/people.service');
+const PeopleService = require('../helpers/people_service');
 
 /**
  * This function will be invoked by an express route
