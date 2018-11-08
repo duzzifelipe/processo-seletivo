@@ -14,6 +14,39 @@ module.exports.index = (req, res) => {
         .catch(error => res.json({ error: true, message: error }))
 }
 
+/**
+ * This function will extract filters and orders from the url
+ * The format needs to be a url-encoded json object.
+ * For example: "filter%5Bname%5D=Felipe" means { filter: { name: 'Felipe' } }
+ * @param {object} req Express request object
+ */
 const parseParameters = req => {
-    return { filter: {}, order: {} }
+    const filter = parseRequestObject(req, 'filter');
+    const order = parseRequestObject(req, 'order');
+    return { filter, order }
+};
+
+/**
+ * This function receives a request object and a key name
+ * and will check if the key provided is part of request
+ * query and if it is a json object 
+ * @param {object} req Express request object
+ * @param {object} key Object key to be validated and extracted
+ */
+const parseRequestObject = (req, key) => {
+    const query = req.query;
+
+    // check if the key is present
+    // and if it is a not-empty json object
+    if (Object.keys(query).includes(key) &&
+        typeof (query[key]) === 'object' &&
+        !Array.isArray(query[key]) &&
+        query[key] != null &&
+        Object.keys(query[key]).length > 0) {
+
+        return query[key];
+    }
+
+    // return a empty object by default
+    return {};
 }
