@@ -1,4 +1,4 @@
-const ENDPOINT = "https://gist.githubusercontent.com/renatomenegasso/fb09abe8fb525bfa00f622cee6b5104f/raw/dcff5d9885e3178c38e12ba45f874268b04e53ae/subscribe.json";
+const { ENDPOINT } = require("./_config");
 const request = require('request');
 
 /**
@@ -48,7 +48,7 @@ module.exports = (filter, order) => {
  * @param {function} cb Function to be called after the request
  */
 const makeRequest = (cb) => {
-    request(ENDPOINT, { json: true }, (err, _res, body) => {
+    request(ENDPOINT, { json: true, timeout: 2500 }, (err, _res, body) => {
         // return with error and the body
         cb(err, body);
     })
