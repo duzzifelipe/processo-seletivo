@@ -86,17 +86,40 @@
                 },
                 error: function (error) {
                     errorHint(error)
-                    // show this error
                 }
             })
         }
 
         $(document).ready(function () {
-            // TODO: retrieve category list
+            // get the skill list to populate the select
+            $.ajax({
+                method: 'GET',
+                url: "//<%= host %>/api/v1/skills",
+                success: function (body) {
+                    if (body.error) {
+                        errorHint(body.message);
 
-            // create the multiple select element
-            $('#people-skill-list').multiselect({
-                buttonWidth: 'calc(100% - 58px)'
+                    } else {
+                        var data = body.data;
+
+                        // append elements to select list
+                        for (var i = 0; i < data.length; i++) {
+                            var row = data[i];
+
+                            $('#people-skill-list').append("<option value=\"" + row + "\">" + row + "</option>")
+                        }
+
+                        // create the multiple select element
+                        $('#people-skill-list').multiselect({
+                            buttonWidth: 'calc(100% - 58px)'
+                        });
+
+                        errorHint(null);
+                    }
+                },
+                error: function (error) {
+                    errorHint(error)
+                }
             });
 
             // wait for form changes and invoke the backend
