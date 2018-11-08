@@ -67,3 +67,15 @@ body > .container > .content {
     margin: 0;
     display: none;
 }
+
+/* Data Table Styles */
+#data {
+    background: #ffffff;
+    padding: 20px 10px 35px;
+}
+
+#data table img {
+    max-width: 30px;
+    max-height: 30px;
+    border-radius: 50%;
+}

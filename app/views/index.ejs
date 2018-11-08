@@ -80,7 +80,23 @@
 
                     } else {
                         var data = body.data;
-                        console.log(data);
+
+                        // loop over the data and append to the table body
+                        $("#data table tbody").html();
+
+                        for (var i = 0; i < data.length; i++) {
+                            var row = data[i];
+                            $("#data table tbody").append(
+                                "<tr>" +
+                                "<th>" + (i + 1) + "</th>" +
+                                "<td><img src=\"" + row.avatarUrl + "\"/></td>" +
+                                "<td>" + row.name + "</td>" +
+                                "<td>" + row.age + "</td>" +
+                                "<td>" + row.skills + "</td>" +
+                                "</tr>"
+                            )
+                        }
+
                         errorHint(null);
                     }
                 },
