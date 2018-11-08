@@ -6,6 +6,7 @@ const app = express();
 app.set('port', 1337);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'app/views'));
+app.use(express.static('public'));
 
 // Include the controller route
 const PeopleController = require('./app/controllers/people_controller');

@@ -1,1 +1,28 @@
-index
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>People Subscription</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="//<%= host %>/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <section id="header">
+                <% include _header.ejs %>
+            </section>
+            <section id="controls">
+                <% include _controls.ejs %>
+            </section>
+            <section id="data">
+                <% include _data.ejs %>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>
