@@ -11,8 +11,10 @@ app.use(express.static('public'));
 // Include the controller route
 const PeopleController = require('./app/controllers/people_controller');
 const FrontController = require('./app/controllers/front_controller');
+const SkillController = require('./app/controllers/skill_controller');
 
 app.get('/api/v1/people', PeopleController.index);
+app.get('/api/v1/skills', SkillController.index);
 app.get('/', FrontController.index)
 
 // Start the application
