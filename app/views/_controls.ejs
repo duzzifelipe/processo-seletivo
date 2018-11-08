@@ -1,0 +1,29 @@
+<form>
+    <div class="row">
+        <div class="col-md-12 title">
+            <h2>Search for Someone</h2>
+        </div>
+        <div class="col-md-5 col-md-offset-1">
+            <div class="input-group">
+                <span class="input-group-addon" id="name-addon">Name</span>
+                <input type="text" id="people-name" class="form-control" placeholder="Name" aria-describedby="name-addon">
+            </div>
+        </div>
+        <div class="col-md-5">
+            <label class="input-group-addon select-title">Skills</label>
+            <select id="people-skill-list" multiple="multiple">
+                <option value="ruby">Ruby</option>
+                <option value="java">Java</option>
+            </select>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="alert-holder">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <span class="message-holder"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>People Subscription</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendor/bootstrap-multiselect.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="//<%= host %>/style.css">
 </head>
@@ -23,6 +24,90 @@
             </section>
         </div>
     </div>
+
+    <script type="application/javascript" src="/vendor/jquery.min.js"></script>
+    <script type="application/javascript" src="/vendor/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/vendor/bootstrap-multiselect.js"></script>
+    <script type="text/javascript">
+        var filter = {};
+        var order = {};
+
+        /**
+         * Shows a alert-danger when there is a fail or error from the backend 
+         */
+        var errorHint = function (msg) {
+            if (msg === null) {
+                $("#controls .alert-holder .alert .message-holder").html("");
+                $("#controls .alert-holder .alert").fadeOut(200);
+
+            } else {
+                $("#controls .alert-holder .alert .message-holder").html(msg);
+                $("#controls .alert-holder .alert").fadeIn(200);
+            }
+        }
+
+        /**
+         *  Calls the backend with parsed filters and orders
+         */
+        var callServer = function () {
+            // parse filters
+            var name = $("#controls form #people-name").val();
+            var skills = $("#controls form #people-skill-list").val();
+
+            // set name filter key
+            if (name != "") {
+                filter.name = name;
+            } else {
+                delete filter.name;
+            }
+
+            // set skill filter key
+            if (typeof (skills) == 'object' && skills.length > 0) {
+                filter.skills = skills;
+            } else {
+                delete filter.skills;
+            }
+
+            // call the backend
+            var params = $.param({ filter: filter, order: order });
+
+            $.ajax({
+                method: 'GET',
+                url: "//<%= host %>/api/v1/people?" + params,
+                success: function (body) {
+                    if (body.error) {
+                        errorHint(body.message);
+
+                    } else {
+                        var data = body.data;
+                        console.log(data);
+                        errorHint(null);
+                    }
+                },
+                error: function (error) {
+                    errorHint(error)
+                    // show this error
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            // TODO: retrieve category list
+
+            // create the multiple select element
+            $('#people-skill-list').multiselect({
+                buttonWidth: 'calc(100% - 58px)'
+            });
+
+            // wait for form changes and invoke the backend
+            // listen to input and select changes
+            $("#controls form").on('keyup change paste', 'input, select', function () {
+                callServer();
+            });
+
+            callServer();
+        });
+    </script>
 </body>
 
 </html>
