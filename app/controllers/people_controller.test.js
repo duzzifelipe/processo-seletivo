@@ -60,6 +60,7 @@ describe('people_controller', () => {
             const body = JSON.parse(res._getData());
             const rest_data = body.data;
 
+            expect(rest_data).not.to.be.empty;
             rest_data.every(item => expect(item.name).to.equal(filter.name))
 
             done();
@@ -81,6 +82,7 @@ describe('people_controller', () => {
             const body = JSON.parse(res._getData());
             const rest_data = body.data;
 
+            expect(rest_data).not.to.be.empty;
             expect(rest_data.every(item =>
                 item.skills.some(item_2 => filter.skills.includes(item_2))
             )).to.be.true;

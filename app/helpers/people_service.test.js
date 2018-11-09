@@ -42,6 +42,7 @@ describe('people_service', () => {
     it('should have exactly these keys under the object', done => {
         PeopleService()
             .then(result => {
+                expect(result).not.to.be.empty;
                 result.every(item => expect(item).to.have.all.keys("name", "age", "avatarUrl", "skills"))
                 done();
             })
@@ -56,6 +57,7 @@ describe('people_service', () => {
         const name = "Renato Menegasso";
         PeopleService({ name })
             .then(result => {
+                expect(result).not.to.be.empty;
                 result.every(item => expect(item.name).to.equal(name))
                 done();
             })
@@ -88,6 +90,7 @@ describe('people_service', () => {
 
         PeopleService({ skills })
             .then(result => {
+                expect(result).not.to.be.empty;
                 expect(result.every(item => item.skills.some(item_2 => skills.includes(item_2)))).to.be.true;
                 done();
             })
@@ -341,6 +344,7 @@ describe('people_service', () => {
             .then(result_1 => {
                 PeopleService({ skills }, { age: 1 })
                     .then(result_2 => {
+                        expect(result_2).not.to.be.empty;
                         expect(result_2).not.to.be.eql(result_1);
                         expect(result_2.every(item => item.skills.some(item_2 => skills.includes(item_2)))).to.be.true;
 
