@@ -1,5 +1,5 @@
 const { ENDPOINT } = require('./_config');
-const request = require('request');
+const axios = require('axios');
 const removeAccents = require('remove-accents');
 
 /**
@@ -25,12 +25,9 @@ const removeAccents = require('remove-accents');
 module.exports = (filter, order) => {
     // must return a promise
     return new Promise((resolve, reject) => {
-        // call the base request
-        makeRequest((err, body) => {
-            if (err) {
-                reject('Failed to receive server data')
-
-            } else {
+        axios.get(ENDPOINT, { timeout: 1000 })
+            .then(response => {
+                const body = response.data;
                 // elixir would help here xD
                 //
                 // filterBody(body)
@@ -39,19 +36,10 @@ module.exports = (filter, order) => {
                 // |> resolve()
                 //
                 resolve(applyOrder(applyFilters(filterBody(body), filter), order))
-            }
-        })
-    })
-};
-
-/**
- * Calls the api endpoint
- * @param {function} cb Function to be called after the request
- */
-const makeRequest = (cb) => {
-    request(ENDPOINT, { json: true, timeout: 2500 }, (err, _res, body) => {
-        // return with error and the body
-        cb(err, body);
+            })
+            .catch(error => {
+                reject(error);
+            })
     })
 };
 

@@ -7,10 +7,10 @@
   "author": "Felipe Duzzi <duzzifelipe@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "remove-accents": "^0.4.2",
-    "request": "^2.88.0"
+    "remove-accents": "^0.4.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -21,6 +21,6 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "test": "./node_modules/.bin/mocha './app/**/*.test.js' --exit -t 5000"
+    "test": "./node_modules/.bin/mocha --require './app/app.test-config.js' './app/**/*.test.js' --exit -t 5000"
   }
 }

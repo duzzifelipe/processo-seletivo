@@ -1,5 +1,5 @@
 const { ENDPOINT } = require('./_config');
-const request = require('request');
+const axios = require('axios');
 
 /**
  * Calls the endpoint and filter all objects to retrieve
@@ -8,16 +8,14 @@ const request = require('request');
 module.exports = () => {
     return new Promise((resolve, reject) => {
         // call the endpoint
-        request(ENDPOINT, { json: true, timeout: 2500 }, (err, _res, body) => {
-            if (err) {
-                reject(err);
-
-            } else {
-                // resolve the promise with
-                // parsed data
+        axios.get(ENDPOINT, { timeout: 1000 })
+            .then(response => {
+                const body = response.data;
                 resolve(parseSkills(body))
-            }
-        });
+            })
+            .catch(error => {
+                reject(error);
+            })
     });
 };
 
