@@ -1,4 +1,4 @@
-const { ENDPOINT } = require("./_config");
+const { ENDPOINT } = require('./_config');
 const request = require('request');
 const removeAccents = require('remove-accents');
 
@@ -68,7 +68,7 @@ const filterBody = body => body.map(row => filterEachRow(row));
  */
 const filterEachRow = data => {
     // list of desired keys
-    const keys = ["name", "age", "avatarUrl", "skills"];
+    const keys = ['name', 'age', 'avatarUrl', 'skills'];
 
     // this row first get all keys from this object into an array
     // then this array is filtered based on the list of needed keys

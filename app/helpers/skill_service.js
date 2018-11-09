@@ -1,4 +1,4 @@
-const { ENDPOINT } = require("./_config");
+const { ENDPOINT } = require('./_config');
 const request = require('request');
 
 /**
