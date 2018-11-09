@@ -74,8 +74,32 @@ body > .container > .content {
     padding: 20px 10px 35px;
 }
 
+#data table tbody th, #data table tbody td {
+    vertical-align: middle;
+}
+
 #data table img {
     max-width: 30px;
     max-height: 30px;
     border-radius: 50%;
+}
+
+#data table .chip {
+    display: inline-block;
+    padding: 0 15px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 30px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+    text-decoration: none;
+    color: #333;
+}
+
+#data table .chip:hover {
+    background-color: #d2d2d2;
+}
+
+#data table .chip:not(:first-child) {
+    margin-left: 10px;
 }

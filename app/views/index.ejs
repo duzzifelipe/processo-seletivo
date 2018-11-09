@@ -47,6 +47,24 @@
         }
 
         /**
+         * Receives a list of strings (skills)
+         * and put inside a rounded box (chip)
+         */
+        var skillChips = function (list) {
+            var allItems = "";
+
+            for (var i = 0; i < list.length; i++) {
+                if (list[i] != "") {
+                    allItems += "<a class=\"chip\" href=\"" +
+                        "https://wikipedia.org/wiki/" + list[i] +
+                        "\" target=\"_blank\">" + list[i] + "</a>";
+                }
+            }
+
+            return allItems;
+        }
+
+        /**
          *  Calls the backend with parsed filters and orders
          */
         var callServer = function () {
@@ -82,7 +100,7 @@
                         var data = body.data;
 
                         // loop over the data and append to the table body
-                        $("#data table tbody").html();
+                        $("#data table tbody").html("");
 
                         for (var i = 0; i < data.length; i++) {
                             var row = data[i];
@@ -92,7 +110,7 @@
                                 "<td><img src=\"" + row.avatarUrl + "\"/></td>" +
                                 "<td>" + row.name + "</td>" +
                                 "<td>" + row.age + "</td>" +
-                                "<td>" + row.skills + "</td>" +
+                                "<td>" + skillChips(row.skills) + "</td>" +
                                 "</tr>"
                             )
                         }
