@@ -1,5 +1,6 @@
 const { ENDPOINT } = require("./_config");
 const request = require('request');
+const removeAccents = require('remove-accents');
 
 /**
  * This module receives two arguments to filter or order the query.
@@ -106,7 +107,12 @@ const applyFilters = (data, filter) => {
                 return row[filter_key].some(item => filter_val.includes(item))
 
             } else {
-                // for a common field
+                // if the value is a string, compare it with startsWith
+                // and ignore case
+                if (typeof (row[filter_key]) === 'string') {
+                    return simplify(row[filter_key]).startsWith(simplify(filter_val));
+                }
+
                 return row[filter_key] == filter_val;
             }
         })
@@ -147,3 +153,10 @@ const applyOrder = (data, order) => {
 
     return data;
 }
+
+/**
+ * Remove accents and turn string into lowercase
+ * - used for comparisons
+ * @param {string} str A string
+ */
+const simplify = str => removeAccents(str).toLocaleLowerCase();

@@ -1,4 +1,5 @@
 const expect = require('chai').expect;
+const removeAccents = require('remove-accents');
 const PeopleService = require('./people_service');
 
 describe('people_service', () => {
@@ -55,6 +56,23 @@ describe('people_service', () => {
         const name = "Renato Menegasso";
         PeopleService({ name })
             .then(result => {
+                result.every(item => expect(item.name).to.equal(name))
+                done();
+            })
+            .catch(error => {
+                // just keep a expect if the request fails
+                expect(error).to.be.null;
+                done();
+            })
+    });
+
+    it('should filter starting with a single string value - name', done => {
+        // also ignore case (Renato -> ren)
+        const name = "Hélio Albano";
+        const filterName = removeAccents(name.substring(0, 3).toLocaleLowerCase());
+        PeopleService({ name: filterName })
+            .then(result => {
+                expect(result).not.to.be.empty;
                 result.every(item => expect(item.name).to.equal(name))
                 done();
             })
