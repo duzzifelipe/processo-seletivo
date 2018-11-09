@@ -165,6 +165,35 @@
                 return false;
             });
 
+            // listen to age-order buttons
+            $("#data .age-filter").click(function () {
+                console.log($(this));
+                // if user clicks on a active button
+                // it will reset the filters
+                if ($(this).hasClass("active")) {
+                    // remove active from all buttons (this one)
+                    $("#data .age-filter").removeClass("active");
+
+                    // reset the filter and call the backend
+                    order = {};
+                    callServer();
+
+                } else {
+                    // get the direction of the button clicked
+                    var direction = $(this).hasClass("age-down") ? -1 : 1;
+
+                    // first, remove active class from all (the other)
+                    $("#data .age-filter").removeClass("active");
+
+                    // update order variable and call the backend
+                    order.age = direction;
+                    callServer();
+
+                    // add active only to this
+                    $(this).addClass("active");
+                }
+            })
+
             callServer();
         });
     </script>

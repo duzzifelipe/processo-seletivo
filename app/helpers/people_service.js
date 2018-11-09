@@ -135,8 +135,9 @@ const applyOrder = (data, order) => {
         return data;
     }
     Object.keys(order).forEach(order_key => {
+        const order_dir = parseInt(order[order_key]);
         // assign and validate the direction (needs to be 1, -1)
-        const direction = [1, -1].includes(order[order_key]) ? order[order_key] : 1;
+        const direction = [1, -1].includes(order_dir) ? order_dir : 1;
 
         data.sort((a, b) => {
             if (a[order_key] < b[order_key]) {

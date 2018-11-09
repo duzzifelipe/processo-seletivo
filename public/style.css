@@ -103,3 +103,11 @@ body > .container > .content {
 #data table .chip:not(:first-child) {
     margin-left: 10px;
 }
+
+#data table .age-filter {
+    cursor: pointer;
+}
+
+#data table .age-filter.active {
+    color: #ff0000
+}
