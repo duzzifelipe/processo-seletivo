@@ -161,6 +161,9 @@
             $("#controls form").on('keyup change paste', 'input, select', function () {
                 callServer();
             });
+            $("#controls form").submit(function () {
+                return false;
+            });
 
             callServer();
         });
