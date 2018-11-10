@@ -1,6 +1,7 @@
 const { ENDPOINT } = require('./_config');
 const axios = require('axios');
 const removeAccents = require('remove-accents');
+const { cache, getCache } = require('./cache.service');
 
 /**
  * This module receives two arguments to filter or order the query.
@@ -28,20 +29,43 @@ module.exports = (filter, order) => {
         axios.get(ENDPOINT, { timeout: 1000 })
             .then(response => {
                 const body = response.data;
-                // elixir would help here xD
-                //
-                // filterBody(body)
-                // |> applyFilters(filter)
-                // |> applyOrder(order)
-                // |> resolve()
-                //
-                resolve(applyOrder(applyFilters(filterBody(body), filter), order))
+
+                try {
+                    const result = filterBody(body);
+                    cache('people', result); // store all the clean data
+                    resolve(transformData(result, filter, order))
+
+                } catch (e) {
+                    // if there is a error parsing the data, reject it
+                    reject('Error parsing data')
+                }
             })
             .catch(error => {
-                reject(error);
+                // if the error is something about http request
+                // try to use the cache
+                const result = getCache('people');
+
+                if (result) {
+                    // if there is data, apply transforms and send it
+                    resolve(transformData(result, filter, order))
+
+                } else {
+                    // if there is no cache, throw the error
+                    reject(error);
+                }
             })
     })
 };
+
+/**
+ * Applies filters and orders to the given data
+ * @param {object} data 
+ * @param {object} filter 
+ * @param {object} order 
+ */
+const transformData = (data, filter, order) => {
+    return applyOrder(applyFilters(data, filter), order);
+}
 
 /**
  * Filters the body data to keep only needed fields

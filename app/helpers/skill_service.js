@@ -1,5 +1,6 @@
 const { ENDPOINT } = require('./_config');
 const axios = require('axios');
+const { cache, getCache } = require('./cache.service');
 
 /**
  * Calls the endpoint and filter all objects to retrieve
@@ -10,11 +11,29 @@ module.exports = () => {
         // call the endpoint
         axios.get(ENDPOINT, { timeout: 1000 })
             .then(response => {
-                const body = response.data;
-                resolve(parseSkills(body))
+                try {
+                    const skills = parseSkills(response.data);
+                    cache('skills', skills); // store the skill list (not the raw http response)
+                    resolve(skills)
+
+                } catch (e) {
+                    // if there is a error parsing the data, reject it
+                    reject('Error parsing data')
+                }
             })
             .catch(error => {
-                reject(error);
+                // if there is a error (related to http request)
+                // try to use the memory cache
+                const skills = getCache('skills');
+
+                if (skills) {
+                    // if there is a skill list, send it
+                    resolve(skills)
+
+                } else {
+                    // if there is no cache, throw the error
+                    reject(error);
+                }
             })
     });
 };
