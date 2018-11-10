@@ -11,7 +11,7 @@ module.exports.index = (req, res) => {
     // Get result from people service and send as json response
     PeopleService(filter, order)
         .then(people => res.json({ error: false, data: people }))
-        .catch(error => res.json({ error: true, message: error }))
+        .catch(error => res.json({ error: true, message: 'Failed to retrieve people list' }))
 }
 
 /**
