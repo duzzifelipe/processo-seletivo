@@ -58,6 +58,10 @@ body > .container > .content {
     border-bottom-left-radius: 0;
 }
 
+#controls #people-skill-list {
+    display: none;
+}
+
 #controls .alert-holder {
     margin-top: 20px;
     height: 50px;
