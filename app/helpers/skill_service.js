@@ -1,6 +1,6 @@
 const { ENDPOINT } = require('./_config');
 const axios = require('axios');
-const { cache, getCache } = require('./cache.service');
+const { cache, getCache } = require('./cache_service');
 
 /**
  * Calls the endpoint and filter all objects to retrieve

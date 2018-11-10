@@ -1,7 +1,7 @@
 const { ENDPOINT } = require('./_config');
 const axios = require('axios');
 const removeAccents = require('remove-accents');
-const { cache, getCache } = require('./cache.service');
+const { cache, getCache } = require('./cache_service');
 
 /**
  * This module receives two arguments to filter or order the query.
