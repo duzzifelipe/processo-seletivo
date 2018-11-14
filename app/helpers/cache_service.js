@@ -1,8 +1,8 @@
 /**
- * This service provides a simple in-memory storage 
+ * This service provides a simple in-memory storage
  * for data that comes from a remote server.
- * 
- * In production environment, with multiple nodes, 
+ *
+ * In production environment, with multiple nodes,
  * it would be better to use a more advanced memory storage like redis.
  */
 const MemoryCache = require('memory-cache');

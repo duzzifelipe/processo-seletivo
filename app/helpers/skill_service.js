@@ -42,7 +42,7 @@ module.exports = () => {
  * Filter all objects inside the array
  * getting the "skills" array content
  * and then selecting only a unique ocurrence
- * @param {object} body 
+ * @param {object} body
  */
 const parseSkills = body => {
     // this function first map into an array of array of skills

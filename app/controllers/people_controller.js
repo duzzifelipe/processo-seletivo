@@ -29,7 +29,7 @@ const parseParameters = req => {
 /**
  * This function receives a request object and a key name
  * and will check if the key provided is part of request
- * query and if it is a json object 
+ * query and if it is a json object
  * @param {object} req Express request object
  * @param {object} key Object key to be validated and extracted
  */

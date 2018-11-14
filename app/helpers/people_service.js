@@ -6,7 +6,7 @@ const { cache, getCache } = require('./cache_service');
 /**
  * This module receives two arguments to filter or order the query.
  * If they are undefined, no filter or order will be applyied by default.
- * 
+ *
  * An example of filter (accepts an array for skills):
  * {
  *    name: "Felipe"
@@ -15,7 +15,7 @@ const { cache, getCache } = require('./cache_service');
  *    .. or ..
  *    skill: "ruby"
  * }
- * 
+ *
  * An example of ordering:
  * {
  *   name: -1 // descending
@@ -59,9 +59,9 @@ module.exports = (filter, order) => {
 
 /**
  * Applies filters and orders to the given data
- * @param {object} data 
- * @param {object} filter 
- * @param {object} order 
+ * @param {object} data
+ * @param {object} filter
+ * @param {object} order
  */
 const transformData = (data, filter, order) => {
     return applyOrder(applyFilters(data, filter), order);
@@ -84,7 +84,7 @@ const filterEachRow = data => {
 
     // this row first get all keys from this object into an array
     // then this array is filtered based on the list of needed keys
-    // after it, a reduce function builds the object again from the 
+    // after it, a reduce function builds the object again from the
     //  filtered list and the original data
     return Object.keys(data).filter(key => keys.includes(key))
         .reduce((obj, key) => {
@@ -99,8 +99,8 @@ const filterEachRow = data => {
  *  * If the value is an array and the data field too, it must match any (not every)
  *  * If the value is anything else, must exactly match
  *  * If the key doesn't exist on the data object, will return null (will try to match undefined)
- * @param {object} filter 
- * @param {array} data 
+ * @param {object} filter
+ * @param {array} data
  */
 const applyFilters = (data, filter) => {
     // check if there is any filter
@@ -138,7 +138,7 @@ const applyFilters = (data, filter) => {
  * Receives a object containing a field => order association
  * and returns a ordered object
  * This function respects the key order of the object
- * 
+ *
  * @param {object} order An object containing a field and the direction
  * @param {array} data People list
  */
