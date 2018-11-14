@@ -8,5 +8,5 @@ module.exports.index = (req, res) => {
     // Get data from skill list and return a json response
     SkillService()
         .then(skills => res.json({ error: false, data: skills }))
-        .catch(error => res.json({ error: true, message: error }))
+        .catch(error => res.json({ error: true, message: 'Failed to retrieve skills list' }))
 };

@@ -43,7 +43,7 @@ describe('people_service', () => {
         PeopleService()
             .then(result => {
                 expect(result).not.to.be.empty;
-                result.every(item => expect(item).to.have.all.keys("name", "age", "avatarUrl", "skills"))
+                result.every(item => expect(item).to.have.all.keys('name', 'age', 'avatarUrl', 'skills'))
                 done();
             })
             .catch(error => {
@@ -54,7 +54,7 @@ describe('people_service', () => {
     });
 
     it('should filter with a single value - name', done => {
-        const name = "Renato Menegasso";
+        const name = 'Renato Menegasso';
         PeopleService({ name })
             .then(result => {
                 expect(result).not.to.be.empty;
@@ -70,7 +70,7 @@ describe('people_service', () => {
 
     it('should filter starting with a single string value - name', done => {
         // also ignore case (Renato -> ren)
-        const name = "Hélio Albano";
+        const name = 'Hélio Albano';
         const filterName = removeAccents(name.substring(0, 3).toLocaleLowerCase());
         PeopleService({ name: filterName })
             .then(result => {
@@ -86,7 +86,7 @@ describe('people_service', () => {
     });
 
     it('should filter with an array of values - skills', done => {
-        const skills = ["restfull", "aws", "linux"];
+        const skills = ['restfull', 'aws', 'linux'];
 
         PeopleService({ skills })
             .then(result => {
@@ -102,7 +102,7 @@ describe('people_service', () => {
     });
 
     it("should return empty for a filter that doesn't exist", done => {
-        const pets = ["dog", "cat"];
+        const pets = ['dog', 'cat'];
 
         PeopleService({ pets })
             .then(result => {
@@ -132,7 +132,7 @@ describe('people_service', () => {
     });
 
     it('should return empty for a skill filter with non-array', done => {
-        const skills = "restfull";
+        const skills = 'restfull';
 
         PeopleService({ skills })
             .then(result => {
@@ -147,7 +147,7 @@ describe('people_service', () => {
     });
 
     it('should filter with two variables', done => {
-        const data = { name: "Renato Menegasso", age: 29 };
+        const data = { name: 'Renato Menegasso', age: 29 };
         PeopleService(data)
             .then(result => {
                 result.every(item => expect(item.name).to.equal(data.name))
@@ -162,7 +162,7 @@ describe('people_service', () => {
     });
 
     it('should filter with two variables and get no results', done => {
-        const data = { name: "Renato Menegasso", age: 23 };
+        const data = { name: 'Renato Menegasso', age: 23 };
         PeopleService(data)
             .then(result => {
                 expect(result).to.be.empty;
@@ -337,7 +337,7 @@ describe('people_service', () => {
     it('should filter and order together', done => {
         // check if a call with order differs from a raw filtered call
         // and after, order the not-ordered and compare bot
-        const skills = ["restfull", "aws", "linux"];
+        const skills = ['restfull', 'aws', 'linux'];
 
 
         PeopleService({ skills })

@@ -144,9 +144,12 @@
                         }
 
                         // create the multiple select element
-                        $('#people-skill-list').multiselect({
-                            buttonWidth: 'calc(100% - 58px)'
-                        });
+                        $('#people-skill-list')
+                            .multiselect({
+                                buttonWidth: 'calc(100% - 58px)'
+                            })
+                            .show();
+
 
                         errorHint(null);
                     }

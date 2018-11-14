@@ -1,5 +1,6 @@
-const { ENDPOINT } = require("./_config");
-const request = require('request');
+const { ENDPOINT } = require('./_config');
+const axios = require('axios');
+const { cache, getCache } = require('./cache_service');
 
 /**
  * Calls the endpoint and filter all objects to retrieve
@@ -8,16 +9,32 @@ const request = require('request');
 module.exports = () => {
     return new Promise((resolve, reject) => {
         // call the endpoint
-        request(ENDPOINT, { json: true, timeout: 2500 }, (err, _res, body) => {
-            if (err) {
-                reject(err);
+        axios.get(ENDPOINT, { timeout: 1000 })
+            .then(response => {
+                try {
+                    const skills = parseSkills(response.data);
+                    cache('skills', skills); // store the skill list (not the raw http response)
+                    resolve(skills)
 
-            } else {
-                // resolve the promise with
-                // parsed data
-                resolve(parseSkills(body))
-            }
-        });
+                } catch (e) {
+                    // if there is a error parsing the data, reject it
+                    reject('Error parsing data')
+                }
+            })
+            .catch(error => {
+                // if there is a error (related to http request)
+                // try to use the memory cache
+                const skills = getCache('skills');
+
+                if (skills) {
+                    // if there is a skill list, send it
+                    resolve(skills)
+
+                } else {
+                    // if there is no cache, throw the error
+                    reject(error);
+                }
+            })
     });
 };
 

@@ -1,6 +1,7 @@
-const { ENDPOINT } = require("./_config");
-const request = require('request');
+const { ENDPOINT } = require('./_config');
+const axios = require('axios');
 const removeAccents = require('remove-accents');
+const { cache, getCache } = require('./cache_service');
 
 /**
  * This module receives two arguments to filter or order the query.
@@ -25,35 +26,46 @@ const removeAccents = require('remove-accents');
 module.exports = (filter, order) => {
     // must return a promise
     return new Promise((resolve, reject) => {
-        // call the base request
-        makeRequest((err, body) => {
-            if (err) {
-                reject('Failed to receive server data')
+        axios.get(ENDPOINT, { timeout: 1000 })
+            .then(response => {
+                const body = response.data;
 
-            } else {
-                // elixir would help here xD
-                //
-                // filterBody(body)
-                // |> applyFilters(filter)
-                // |> applyOrder(order)
-                // |> resolve()
-                //
-                resolve(applyOrder(applyFilters(filterBody(body), filter), order))
-            }
-        })
+                try {
+                    const result = filterBody(body);
+                    cache('people', result); // store all the clean data
+                    resolve(transformData(result, filter, order))
+
+                } catch (e) {
+                    // if there is a error parsing the data, reject it
+                    reject('Error parsing data')
+                }
+            })
+            .catch(error => {
+                // if the error is something about http request
+                // try to use the cache
+                const result = getCache('people');
+
+                if (result) {
+                    // if there is data, apply transforms and send it
+                    resolve(transformData(result, filter, order))
+
+                } else {
+                    // if there is no cache, throw the error
+                    reject(error);
+                }
+            })
     })
 };
 
 /**
- * Calls the api endpoint
- * @param {function} cb Function to be called after the request
+ * Applies filters and orders to the given data
+ * @param {object} data 
+ * @param {object} filter 
+ * @param {object} order 
  */
-const makeRequest = (cb) => {
-    request(ENDPOINT, { json: true, timeout: 2500 }, (err, _res, body) => {
-        // return with error and the body
-        cb(err, body);
-    })
-};
+const transformData = (data, filter, order) => {
+    return applyOrder(applyFilters(data, filter), order);
+}
 
 /**
  * Filters the body data to keep only needed fields
@@ -68,7 +80,7 @@ const filterBody = body => body.map(row => filterEachRow(row));
  */
 const filterEachRow = data => {
     // list of desired keys
-    const keys = ["name", "age", "avatarUrl", "skills"];
+    const keys = ['name', 'age', 'avatarUrl', 'skills'];
 
     // this row first get all keys from this object into an array
     // then this array is filtered based on the list of needed keys
