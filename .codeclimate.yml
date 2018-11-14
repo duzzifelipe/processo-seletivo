@@ -1,0 +1,9 @@
+engines:
+  eslint:
+    enabled: true
+exclude_patterns:
+  - node_modules/
+  - public/
+  - ./app/**/*.test.js
+  - ./app/app.test-config.js
+  - ./app/views/
